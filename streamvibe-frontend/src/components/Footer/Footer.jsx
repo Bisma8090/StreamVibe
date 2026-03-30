@@ -8,7 +8,7 @@ const Footer = () => {
           <ul className="flex flex-col gap-2">
             {['Categories', 'Devices', 'Pricing', 'FAQ'].map(item => (
               <li key={item}>
-                <a href="#" className="text-[#999] text-sm hover:text-white transition">{item}</a>
+                <Link to="/" className="text-[#999] text-sm hover:text-white transition">{item}</a>
               </li>
             ))}
           </ul>
@@ -18,7 +18,7 @@ const Footer = () => {
           <ul className="flex flex-col gap-2">
             {['Genres', 'Trending', 'New Release', 'Popular'].map(item => (
               <li key={item}>
-                <a href="#" className="text-[#999] text-sm hover:text-white transition">{item}</a>
+                <Link to="/" className="text-[#999] text-sm hover:text-white transition">{item}</a>
               </li>
             ))}
           </ul>
@@ -28,7 +28,7 @@ const Footer = () => {
           <ul className="flex flex-col gap-2">
             {['Genres', 'Trending', 'New Release', 'Popular'].map(item => (
               <li key={item}>
-                <a href="#" className="text-[#999] text-sm hover:text-white transition">{item}</a>
+                <Link to="/" className="text-[#999] text-sm hover:text-white transition">{item}</a>
               </li>
             ))}
           </ul>
@@ -38,7 +38,7 @@ const Footer = () => {
           <ul className="flex flex-col gap-2">
             {['Contact Us'].map(item => (
               <li key={item}>
-                <a href="#" className="text-[#999] text-sm hover:text-white transition">{item}</a>
+                <Link to="/" className="text-[#999] text-sm hover:text-white transition">{item}</a>
               </li>
             ))}
           </ul>
@@ -48,7 +48,7 @@ const Footer = () => {
           <ul className="flex flex-col gap-2">
             {['Plans', 'Features'].map(item => (
               <li key={item}>
-                <a href="#" className="text-[#999] text-sm hover:text-white transition">{item}</a>
+                <Link to="/" className="text-[#999] text-sm hover:text-white transition">{item}</a>
               </li>
             ))}
           </ul>
