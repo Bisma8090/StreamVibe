@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://stream-vibe-sigma-seven.vercel.app/api'
+  baseURL: 'https://stream-vibe-sigma-seven.vercel.app'
 });
 
 // Automatically token attach karo
