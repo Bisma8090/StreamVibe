@@ -10,10 +10,13 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*', // temporarily allow all (better for deployment)
   credentials: true
-}));app.use(express.json());
+}));
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
@@ -28,14 +31,11 @@ app.get('/', (req, res) => {
   res.json({ message: 'StreamVibe API Running! 🎬' });
 });
 
-// MongoDB Connect + Server Start
+// MongoDB connect
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('✅ MongoDB Connected!');
-    app.listen(process.env.PORT, () => {
-      console.log(`🚀 Server running on port ${process.env.PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.log('❌ MongoDB Error:', err);
-  });
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.log('❌ MongoDB Error:', err));
+
+// ❌ REMOVE app.listen()
+// ✅ Export app for Vercel
+module.exports = app;
