@@ -5,8 +5,7 @@ import { FiPlay, FiChevronLeft, FiChevronRight, FiPlus, FiThumbsUp } from 'react
 import Navbar from '../../components/Navbar/Navbar';
 import MovieRow from '../../components/MovieRow/MovieRow';
 import Footer from '../../components/Footer/Footer';
-import { getTrending, getNewReleases, getMustWatch } from '../../utils/api';
-
+import { getTrending, getNewReleases, getMustWatch, getGenres } from '../../utils/api';
 
 const MY_POSTERS = [
   "/assets/slider1.jpg", "/assets/slider2.jpg", "/assets/slider3.jpg",
@@ -37,17 +36,19 @@ const Movies = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [trendRes, newRes, mustRes] = await Promise.all([
+        const [trendRes, newRes, mustRes, genreRes] = await Promise.all([
           getTrending(),
           getNewReleases(),
           getMustWatch(),
-         
+           getGenres(), 
+
         ]);
 
         setTrending(trendRes.data);
         setNewReleases(newRes.data);
         setMustWatch(mustRes.data);
-       
+       setMovieGenres(genreRes.data);
+      setShowGenres(genreRes.data);
 
         if (trendRes.data.length > 0)
            setFeaturedMovies(trendRes.data);
