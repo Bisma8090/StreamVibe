@@ -1,12 +1,12 @@
 // src/pages/Movies/Movies.jsx
 import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { FiPlay, FiChevronLeft, FiChevronRight, FiPlus, FiThumbsUp } from 'react-icons/fi';
 import Navbar from '../../components/Navbar/Navbar';
 import MovieRow from '../../components/MovieRow/MovieRow';
 import Footer from '../../components/Footer/Footer';
-import { useAuth } from '../../context/AuthContext';
-import { getAllMovies, getTrending, getNewReleases, getMustWatch } from '../../utils/api';
+import { getTrending, getNewReleases, getMustWatch } from '../../utils/api';
+
 
 const MY_POSTERS = [
   "/assets/slider1.jpg", "/assets/slider2.jpg", "/assets/slider3.jpg",
@@ -21,8 +21,7 @@ const getHDThumbnail = (url) => {
 };
 
 const Movies = () => {
-  const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  
 
   const [activeTab, setActiveTab] = useState('movies');
   const [featuredMovies, setFeaturedMovies] = useState([]);
@@ -30,8 +29,7 @@ const Movies = () => {
   const [trending, setTrending] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [mustWatch, setMustWatch] = useState([]);
-  const [allMovies, setAllMovies] = useState([]);
-  const [allShows, setAllShows] = useState([]);
+  
   const [movieGenres, setMovieGenres] = useState([]);
   const [showGenres, setShowGenres] = useState([]);
   const genreScrollRef = useRef(null);
@@ -39,26 +37,22 @@ const Movies = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [trendRes, newRes, mustRes, moviesRes, showsRes] = await Promise.all([
+        const [trendRes, newRes, mustRes] = await Promise.all([
           getTrending(),
           getNewReleases(),
           getMustWatch(),
-          getAllMovies({ type: 'movie' }),
-          getAllMovies({ type: 'show' })
+         
         ]);
 
         setTrending(trendRes.data);
         setNewReleases(newRes.data);
         setMustWatch(mustRes.data);
-        setAllMovies(moviesRes.data);
-        setAllShows(showsRes.data);
+       
 
-        if (trendRes.data.length > 0) setFeaturedMovies(trendRes.data);
+        if (trendRes.data.length > 0)
+           setFeaturedMovies(trendRes.data);
 
-        const mg = moviesRes.data.flatMap(m => m.genre);
-        setMovieGenres([...new Set(mg)]);
-        const sg = showsRes.data.flatMap(s => s.genre);
-        setShowGenres([...new Set(sg)]);
+        
       } catch (err) {
         console.error(err);
       }

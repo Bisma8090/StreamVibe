@@ -10,14 +10,39 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: '*', // temporarily allow all (better for deployment)
+  origin: '*',
   credentials: true
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ✅ MongoDB connection with caching (Vercel ke liye zaroori)
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;  // Already connected toh dobara mat karo
+  
+  await mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 10000,
+  });
+  
+  isConnected = true;
+  console.log('✅ MongoDB Connected');
+};
+
+// ✅ Har request se pehle DB connect karo
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('❌ MongoDB Error:', err);
+    res.status(500).json({ message: 'Database connection failed' });
+  }
+});
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -31,11 +56,4 @@ app.get('/', (req, res) => {
   res.json({ message: 'StreamVibe API Running! 🎬' });
 });
 
-// MongoDB connect
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.log('❌ MongoDB Error:', err));
-
-// ❌ REMOVE app.listen()
-// ✅ Export app for Vercel
 module.exports = app;

@@ -41,7 +41,7 @@ const SubscriptionPage = () => {
 
     try {
       // Call real backend endpoint
-      const { data } = await subscribePlan({
+      await subscribePlan({
         plan: selectedPlan,
         cardNumber: form.cardNumber,
         cardHolder: form.cardHolder,
